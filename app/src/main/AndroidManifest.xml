@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Certamen2Gonzalez">
         <activity
+            android:name=".CientificoEdit"
+            android:exported="false" />
+        <activity
+            android:name=".CientificoMain"
+            android:exported="false" />
+        <activity
+            android:name=".CrearCientifico"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

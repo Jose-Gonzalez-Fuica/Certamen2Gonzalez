@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CrearCientifico">
+
+    <RadioGroup
+        android:id="@+id/rgGenero"
+        android:layout_width="331dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="104dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtApellidoPaterno">
+
+        <RadioButton
+            android:id="@+id/rdMasculino"
+            android:layout_width="185dp"
+            android:layout_height="wrap_content"
+
+            android:text="Masculino" />
+
+        <RadioButton
+            android:id="@+id/rdFemenino"
+            android:layout_width="164dp"
+            android:layout_height="wrap_content"
+            android:text="Femenino" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/txtRutCientifico"
+        android:layout_width="338dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="128dp"
+        android:ems="10"
+        android:hint="RUT"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtNombre"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtNombre"
+        android:layout_width="332dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="Nombre"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtApellidoPaterno"
+        app:layout_constraintTop_toBottomOf="@+id/txtRutCientifico" />
+
+    <EditText
+        android:id="@+id/txtApellidoMaterno"
+        android:layout_width="338dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Apellido Materno"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="@+id/rgGenero"
+        app:layout_constraintTop_toBottomOf="@+id/txtApellidoPaterno" />
+
+    <EditText
+        android:id="@+id/txtApellidoPaterno"
+        android:layout_width="335dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Apellido Paterno"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtApellidoMaterno"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
+
+    <Button
+        android:id="@+id/btnCrearCientifico"
+        android:layout_width="326dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="216dp"
+        android:onClick="CrearCientifico"
+        android:text="Crear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtApellidoPaterno"
+        app:layout_constraintTop_toBottomOf="@+id/txtApellidoPaterno" />
+</androidx.constraintlayout.widget.ConstraintLayout>

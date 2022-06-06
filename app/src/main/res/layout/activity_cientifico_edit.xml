@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".CientificoEdit">
+
+    <EditText
+        android:id="@+id/txtApellidoMaternoEdit"
+        android:layout_width="375dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Apellido Materno"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/txtNombreEdit"
+        app:layout_constraintTop_toBottomOf="@+id/txtApellidoPaternoEdit" />
+
+    <EditText
+        android:id="@+id/txtRutCientificoEdit"
+        android:layout_width="375dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="140dp"
+        android:editable="false"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="RUT"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtNombreEdit"
+        android:layout_width="375dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Nombre"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/txtRutCientificoEdit"
+        app:layout_constraintTop_toBottomOf="@+id/txtRutCientificoEdit" />
+
+    <EditText
+        android:id="@+id/txtApellidoPaternoEdit"
+        android:layout_width="375dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Apellido Paterno"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/txtNombreEdit"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreEdit" />
+
+    <RadioGroup
+        android:id="@+id/rgGeneroEdit"
+        android:layout_width="375dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="96dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/txtApellidoPaternoEdit"
+        app:layout_constraintTop_toBottomOf="@+id/txtApellidoPaternoEdit">
+
+        <RadioButton
+            android:id="@+id/rdMasculinoEdit"
+            android:layout_width="185dp"
+            android:layout_height="wrap_content"
+
+            android:text="Masculino" />
+
+        <RadioButton
+            android:id="@+id/rdFemeninoEdit"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:text="Femenino" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnEditarCientifico"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="modificar"
+        android:text="Editar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgGeneroEdit" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:background="#FF0101"
+        android:backgroundTint="#FD0000"
+        android:backgroundTintMode="multiply"
+        android:foregroundTint="#FF0000"
+        android:onClick="dialogo_doble"
+        android:shadowColor="#FF0000"
+        android:text="Borrar"
+        app:iconTint="#FF0000"
+        app:layout_constraintBottom_toTopOf="@+id/txtRutCientificoEdit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.718"
+        app:rippleColor="#FF0202"
+        app:strokeColor="#FF0000" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

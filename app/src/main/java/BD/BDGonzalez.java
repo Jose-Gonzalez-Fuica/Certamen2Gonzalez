@@ -1,9 +1,18 @@
 package BD;
 
+import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.certamen2gonzalez.CientificoEdit;
+
+import java.util.ArrayList;
+
+import Models.CientificoModel;
+import Models.PlantaModel;
+import Models.RecoleccionModel;
 
 
 public class BDGonzalez extends SQLiteOpenHelper {
@@ -16,19 +25,19 @@ public class BDGonzalez extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //Rut, nombres, apellidos, sexo
         sqLiteDatabase.execSQL("CREATE TABLE CientificoGonzalez" +
-                "(id INT PRIMARY KEY AUTOINCREMENT, rut TEXT unique, apelllidoPaterno TEXT," +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT, rut TEXT unique,nombre TEXT , apellidoPaterno TEXT," +
                 "apellidoMaterno TEXT, sexo TEXT)");
         //código planta, nombre de la planta, nombre científico de la planta, foto de la planta y
         // para qué sirvecódigo planta, nombre de la planta, nombre científico de la planta,
         // foto de la planta y para qué sirve
         sqLiteDatabase.execSQL("CREATE TABLE PlantaGonzalez" +
-        "(id INT PRIMARY KEY AUTOINCREMENT, codigoPlanta TEXT, nombrePlanta TEXT, nombreCientifico TEXT, " +
+        "(id INTEGER PRIMARY KEY AUTOINCREMENT, codigoPlanta TEXT, nombrePlanta TEXT, nombreCientifico TEXT, " +
                 "fotoPlanta BLOB, uso TEXT )");
 
         //identificador, fecha registro, código de la planta, rut del científico,
         // comentario, foto del lugar, localización (latitud y longitud) del lugar.
         sqLiteDatabase.execSQL("CREATE TABLE RecolecciónGonzalez" +
-                "(id INT PRIMARY KEY AUTOINCREMENT, fecha TEXT, codigoPlanta TEXT, " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT, codigoPlanta TEXT, " +
                 "rutCientifico TEXT, comentario TEXT, fotoLugar BLOB,latitud REAL,longitud REAL )");
 
     }
@@ -42,15 +51,16 @@ public class BDGonzalez extends SQLiteOpenHelper {
     }
     //insert
     //.........................................
-    public boolean insertarCientificoSql(String rut, String apellidoPaterno, String apellidoMaterno, String sexo) {
+    public boolean insertarCientificoSql(String rut,String nombre, String apellidoPaterno, String apellidoMaterno, String sexo) {
 
         boolean sw1=true;
-        SQLiteDatabase db = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
+
+        SQLiteDatabase db = getWritableDatabase();//ABRE BD EN MODO ESCRITURA
         if(db != null){//PREGUNTO SI LA BASE EXISTE
 
             try{
 
-                db.execSQL("INSERT INTO CientificoGonzalez VALUES("+"'" + rut + "','" + apellidoPaterno + "','" + apellidoMaterno + "','"+sexo+"')") ;//INSERTA REGISTROS
+                db.execSQL("INSERT INTO CientificoGonzalez (rut,nombre,apellidoPaterno,apellidoMaterno,sexo) VALUES("+"'" + rut + "','" + nombre + "','"+  apellidoPaterno + "','" + apellidoMaterno + "','"+sexo+"')") ;//INSERTA REGISTROS
                 db.close();
 
             }catch(Exception e){
@@ -72,7 +82,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
 
             try{
 
-                db.execSQL("INSERT INTO PlantaGonzalez VALUES("+"'" + codigoPlanta + "','" + nombrePlanta + "','" + nombreCientifico + "',+fotoPlanta+,'"+uso+"')") ;//INSERTA REGISTROS
+                db.execSQL("INSERT INTO PlantaGonzalez VALUES("+"'" + codigoPlanta + "','" + nombrePlanta + "','" + nombreCientifico + "',"+ fotoPlanta +",'"+uso+"')") ;//INSERTA REGISTROS
                 db.close();
 
             }catch(Exception e){
@@ -94,7 +104,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
 
             try{
 
-                db.execSQL("INSERT INTO RecolecciónGonzalez VALUES("+"'" + codigoPlanta + "','" + nombrePlanta + "','" + nombreCientifico + "',+fotoPlanta+,'"+uso+"')") ;//INSERTA REGISTROS
+                db.execSQL("INSERT INTO RecolecciónGonzalez VALUES("+"'" + fecha + "','" + codigoPlanta + "','" + rutCientifico + "',"+ comentario +","+ fotoLugar +","+ latitud +","+longitud+")") ;//INSERTA REGISTROS
                 db.close();
 
             }catch(Exception e){
@@ -108,164 +118,186 @@ public class BDGonzalez extends SQLiteOpenHelper {
         return sw1;
     }
     //..................................................
-}
 
-        /*publicclassClaseBDextendsSQLiteOpenHelper {
-        publicClaseBD(@Nullable Contextcontext, @Nullable Stringname, @Nullable SQLiteDatabase.CursorFactoryfactory, intversion) {
-        super(context, name, factory, version);
+    //Delete
+    //.........................................
+    public boolean deleteCientificoSql(String rut){
+        boolean delete = true;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null){
+            String query = "DELETE FROM CientificoGonzalez WHERE rut = '" + rut + "'";
+            try {
+                db.execSQL(query);
+                db.close();
+            } catch (Exception e) {
+                db.close();
+                delete = false;
+            }
         }
-
-        publicClaseBD(@Nullable Contextcontext, @Nullable Stringname, @Nullable SQLiteDatabase.CursorFactoryfactory, intversion, @Nullable DatabaseErrorHandlererrorHandler) {
-        super(context, name, factory, version, errorHandler);
+        else {
+            onCreate(db);
         }
-
-        publicClaseBD(@Nullable Contextcontext, @Nullable Stringname, intversion, @NonNull SQLiteDatabase.OpenParamsopenParams) {
-        super(context, name, version, openParams);
+        return delete;
+    }
+    public boolean deletePlantasSql(int id){
+        boolean delete = true;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null){
+            String query = "DELETE FROM PlantaGonzalez WHERE id = " + id + "";
+            try {
+                db.execSQL(query);
+                db.close();
+            } catch (Exception e) {
+                db.close();
+                delete = false;
+            }
         }
-
-
-        publicClaseBD( Contextcontext)
-        {
-        super(context, "basecontacto", null, 1);
+        else {
+            onCreate(db);
         }
-
-
-@Override
-publicvoidonCreate(SQLiteDatabasesqLiteDatabase) {
-
-        sqLiteDatabase.execSQL("CREATE TABLE contactos" +
-        "(_id INT PRIMARY KEY, nombre TEXT, telefono INT, email TEXT)");
-        //sqLiteDatabase.execSQL("CREATE TABLE Otra" +
-        "(id_otra INT PRIMARY KEY, nombre_otra TEXT)"); // se crea otra tabla
-
+        return delete;
+    }
+    public boolean deleteRecoleccionSql(int id){
+        boolean delete = true;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null){
+            String query = "DELETE FROM RecolecciónGonzalez WHERE id = " + id + "";
+            try {
+                db.execSQL(query);
+                db.close();
+            } catch (Exception e) {
+                db.close();
+                delete = false;
+            }
         }
-
-@Override
-publicvoidonUpgrade(SQLiteDatabasedb, inti, inti1) {
-        db.execSQL("DROP TABLE IF EXISTS  contactos");
-        onCreate(db);  // llama a método que permite crear de nuevo BD y tablas
-
+        else {
+            onCreate(db);
         }
+        return delete;
+    }
+    //..................................................
+    //update
+    //..................................................
+    public boolean updateCientificoSql(CientificoModel cientifico){
+        boolean update = true;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
 
+            String query = "UPDATE CientificoGonzalez " +
+                    "SET rut = '" + cientifico.getRut() + "', nombre = '" + cientifico.getNombre() + "'," +
+                    "apellidoPaterno = '" + cientifico.getApellidoPaterno() + "', apellidoMaterno = '" + cientifico.getApellidoMaterno() +
+                    "',  sexo = '" + cientifico.getSexo() + "' " +
+                    "WHERE id = " +  cientifico.getId() + "";
+            try {
+                db.execSQL(query);
+                db.close();
 
-//.........................................
-        publicbooleaninsertarCONTACTOsql(intid, Stringnom, inttlf, String email) {
+            } catch (Exception e) {
+                db.close();
+                update = false;
 
-        booleansw1=true;
-        SQLiteDatabasedb = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
-        if(db != null){//PREGUNTO SI LA BASE EXISTE
-
-        try{
-
-        db.execSQL("INSERT INTO contactos VALUES(" + id + ",'" + nom + "'," + tlf + ",'" + email + "')");//INSERTA REGISTROS
-        db.close();
-
-        }catch(Exception e){
-        db.close();
-        sw1=false;
+            }
+        } else {
+            onCreate(db);
         }
-        }
-        else{
-        sw1=false;
-        }
-        returnsw1;
+        return update;
+    }
+    public boolean updatePantaSql(PlantaModel planta) {
+        boolean update = true;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
 
+            String query = "UPDATE PlantaGonzalez " +
+                    "SET codigoPlanta = '" + planta.getCodigoPlanta() + "', nombrePlanta = '" + planta.getNombrePlanta() + "', " +
+                    "nombreCientifico = '" + planta.getNombreCientifico() + ", fotoPlanta = " + planta.getFotoPlanta() + ",  uso = '" + planta.getUso() + "' " +
+                    "WHERE id = " +  planta.getId() + "";
+            try {
+                db.execSQL(query);
+                db.close();
+            } catch (Exception e) {
+                db.close();
+                update = false;
+            }
+        } else {
+            onCreate(db);
         }
-//..................................................
+        return update;
+    }
+    public boolean updateRecoleccionSql(RecoleccionModel recoleccion) {
+        boolean update = true;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
 
-
-        publicbooleanmodificarCONTACTOsql(intid, Stringnom, inttlf, String email) {
-
-        booleansw1=true;
-        SQLiteDatabasedb = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
-        if(db != null){//PREGUNTO SI LA BASE EXISTE
-
-        try{
-        db.execSQL("UPDATE Contactos SET nombre='"+nom+"', telefono="+tlf+", email='"+email+"' WHERE _id="+ id);
-        db.close();
-        }catch(Exception e){
-        db.close();
-        sw1=false;
+            String query = "UPDATE RecolecciónGonzalez " +
+                    "SET fecha = '" + recoleccion.getFecha() + "', codigoPlanta = '" + recoleccion.getCodigoPlanta() + "', " +
+                    "rutCientifico = '" + recoleccion.getRutCientifico() + "', comentario = '" + recoleccion.getComentario() + "',  fotoLugar = '" + recoleccion.getFotoLugar() + "', " +
+                    "latitud = " + recoleccion.getLatitud() + ", longitud = " + recoleccion.getLongitud() + " " +
+                    "WHERE id = " +  recoleccion.getId() + "";
+            try {
+                db.execSQL(query);
+                db.close();
+            } catch (Exception e) {
+                db.close();
+                update = false;
+            }
+        } else {
+            onCreate(db);
         }
-        }
-        else{
-        sw1=false;
-        }
-        returnsw1;
-
-        }
-//........................................................
-
-        publicbooleaneliminarCONTACTOsql(intid) {
-// se debe preguntar si existe el registro primero,sino da error en al devoluciÃƒÂ³n
-        booleansw1 = true;
-        SQLiteDatabasedb = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
-        if(db != null) {//PREGUNTO SI LA BASE EXISTE
+        return update;
+    }
+    //..................................................
+    //list
+    //..................................................
+    public ArrayList<CientificoModel> getCientificosSql(){
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<CientificoModel> cientificos = new ArrayList<CientificoModel>();
+        CientificoModel cientifico;
         try {
-        db.execSQL("DELETE FROM Contactos WHERE _id=" + id);
-        db.close();
+            Cursor c = db.rawQuery("SELECT * FROM CientificoGonzalez", null);
+
+            if (c.moveToFirst()) {
+                while (c.moveToNext()){
+                    cientifico = new CientificoModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4), c.getString(5));
+                    cientificos.add(cientifico);
+                }
+                this.close();
+                c.close();
+
+                return cientificos;
+            } else {
+                this.close();
+                c.close();
+
+                return null;
+            }
         } catch (Exception e) {
-        db.close();
-        sw1 = false;
+            return null;
         }
+    }
+    //..................................................
+    //extras
+    //..................................................
+    public boolean checkRecoleccionCientifico(String rut)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<CientificoModel> cientificos = new ArrayList<CientificoModel>();
+        CientificoModel cientifico;
+        try {
+            Cursor c = db.rawQuery("SELECT * FROM RecoleccionGonzalez WHERE rutCientifico = '"+rut+"'", null);
+
+            if (c.moveToFirst()) {
+                this.close();
+                c.close();
+                return true;
+            } else {
+                this.close();
+                c.close();
+
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
         }
-        else{
-        sw1=false;
-        }
-        returnsw1;
-        }
-//...................................................
-
-        publicContacto recuperarCONTACTOsql(intid) {
-
-        SQLiteDatabasedb = getReadableDatabase();//ABRIR BASE DE DATOS EN MODO LECTURA
-
-        Cursor c = db.rawQuery("SELECT * FROM Contactos WHERE _id="+id, null);
-
-        if(c.moveToFirst()) {
-        Contacto contactos = new Contacto(c.getInt(0), c.getString(1), c.getInt(2), c.getString(3));
-        db.close();
-        c.close();
-        returncontactos;
-        }
-        else{
-        db.close();
-        c.close();
-        returnnull;
-        }
-        }
-
-//................................................
-
-
-
-        publicList<Contacto>listarContactossql() {
-//METODO QUE DEVUELVE UNA LISTA CUYOS ELEMENTOS SON OBJETOS DE LA CLASE Contacto
-
-        SQLiteDatabasedb = getReadableDatabase();//abrir modo lectura
-        if(db != null) {//PREGUNTO SI LA BASE EXISTE
-        List<Contacto>lista_contactos = new ArrayList<Contacto>();
-
-        Cursor c = db.rawQuery("SELECT * FROM Contactos", null);
-
-        if(c.moveToFirst()) {
-// c.moveToFirst();   //mueve puntero del cursor al primer registro
-
-        do {
-        Contacto objContacto = new Contacto(c.getInt(0), c.getString(1), c.getInt(2), c.getString(3));
-
-        lista_contactos.add(objContacto);
-
-        } while(c.moveToNext());  //itera mientras hay registro
-        db.close();
-        c.close();
-        returnlista_contactos;
-        } else
-        returnnull;
-        }
-        else
-        returnnull;
-        }
-
-        }
+    }
+}
 
