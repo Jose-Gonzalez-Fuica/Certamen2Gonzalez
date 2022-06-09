@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Certamen2Gonzalez">
         <activity
             android:name=".CrearPlanta"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".PlantaMain"
             android:exported="false" />
@@ -33,6 +33,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 </manifest>

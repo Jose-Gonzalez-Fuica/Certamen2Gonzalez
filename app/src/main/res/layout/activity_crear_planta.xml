@@ -15,54 +15,69 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/txtCodigoPlanta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="Codigo"
             android:inputType="textPersonName"
-            android:text="Name" />
+           />
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/txtNombrePlanta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Nombre" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/txtNombreCientificoPlanta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Nombre Cientifico" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName4"
+            android:id="@+id/txtUsoPlanta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="uso" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_width="324dp"
+        android:layout_height="19dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1">
 
         <Button
-            android:id="@+id/button5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btFotoPlanta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_weight="1"
-            android:text="Button" />
+            android:onClick="TomarFoto"
+            android:text="foto"
+            app:icon="@android:drawable/ic_menu_camera" />
+
+        <Button
+            android:id="@+id/btCrearPlanta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_weight="1"
+            android:onClick="CrearPlanta"
+            android:text="crear"
+            app:icon="@android:drawable/ic_input_add" />
     </LinearLayout>
 
     <FrameLayout
@@ -70,6 +85,13 @@
         android:layout_height="340dp"
         android:layout_weight="1">
 
+        <ImageView
+            android:id="@+id/ivFotoPlanta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            tools:srcCompat="@tools:sample/avatars" />
     </FrameLayout>
 
 </LinearLayout>

@@ -2,13 +2,58 @@ package com.example.certamen2gonzalez;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import Adapter.CientificoAdapter;
+import Adapter.PlantaAdapter;
+import BD.BDGonzalez;
+import Models.CientificoModel;
+import Models.PlantaModel;
 
 public class PlantaMain extends AppCompatActivity {
+
+    ListView lvPlanta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planta_main);
+        lvPlanta = (ListView) findViewById(R.id.lvPlanta);
+    }
+    public void listarCientificos()
+    {
+        BDGonzalez bd = new BDGonzalez(this);
+        ArrayList<PlantaModel> list = new ArrayList<PlantaModel>();
+        list = bd.getPlantasSql();
+        if(list.isEmpty()){
+            lanzarToast("No hay datos");
+        }
+        else
+        {
+            PlantaAdapter adapter = new PlantaAdapter(this,0,list);
+            lvPlanta.setAdapter(adapter);
+        }
+    }
+    public void Crear(View v)
+    {
+        Intent prueba = new Intent(this,CrearPlanta.class);
+        startActivity(prueba);
+
+    }
+    @Override
+    public void onResume() {
+
+        listarCientificos();
+        super.onResume();
+
+    }
+    public void lanzarToast(String mensaje){
+        Toast.makeText(this,mensaje,Toast.LENGTH_LONG).show();
     }
 }

@@ -1,6 +1,7 @@
 package BD;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -80,15 +81,20 @@ public class BDGonzalez extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
         if(db != null){//PREGUNTO SI LA BASE EXISTE
 
-            try{
-
-                db.execSQL("INSERT INTO PlantaGonzalez VALUES("+"'" + codigoPlanta + "','" + nombrePlanta + "','" + nombreCientifico + "',"+ fotoPlanta +",'"+uso+"')") ;//INSERTA REGISTROS
+            ContentValues valores = new ContentValues();
+            valores.put("codigoPlanta", codigoPlanta);
+            valores.put("nombrePlanta", nombrePlanta);
+            valores.put("nombreCientifico", nombreCientifico);
+            valores.put("fotoPlanta", fotoPlanta);
+            valores.put("uso", uso);
+            try {
+                db.insert("PlantaGonzalez", "fotoPlanta", valores);
                 db.close();
-
-            }catch(Exception e){
+            } catch (Exception e) {
                 db.close();
-                sw1=false;
+                sw1 = false;
             }
+
         }
         else{
             sw1=false;
@@ -96,8 +102,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         return sw1;
 
     }
-    public boolean insertarRecoleccionSql(String fecha,String codigoPlanta,String rutCientifico,String comentario,byte[] fotoLugar,double latitud,double longitud)
-    {
+    public boolean insertarRecoleccionSql(String fecha,String codigoPlanta,String rutCientifico,String comentario,byte[] fotoLugar,double latitud,double longitud){
         boolean sw1=true;
         SQLiteDatabase db = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
         if(db != null){//PREGUNTO SI LA BASE EXISTE
@@ -270,6 +275,33 @@ public class BDGonzalez extends SQLiteOpenHelper {
                 c.close();
 
                 return cientificos;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public ArrayList<PlantaModel> getPlantasSql(){
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<PlantaModel> plantas = new ArrayList<PlantaModel>();
+        PlantaModel planta;
+        try {
+            Cursor c = db.rawQuery("SELECT * FROM PlantaGonzalez", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    planta = new PlantaModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getBlob(4), c.getString(5));
+                    plantas.add(planta);
+                }
+                while(c.moveToNext());
+                this.close();
+                c.close();
+
+                return plantas;
+            } else {
+                this.close();
+                c.close();
+
+                return plantas;
             }
         } catch (Exception e) {
             return null;

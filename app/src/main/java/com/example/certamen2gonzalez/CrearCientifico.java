@@ -2,6 +2,7 @@ package com.example.certamen2gonzalez;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,7 @@ public class CrearCientifico extends AppCompatActivity {
         String asd="";
     }
 
+    @SuppressLint("NotConstructor")
     public void CrearCientifico(View v){
         String rut = txtRutCientifico.getText().toString();
         String nombre = txtNombre.getText().toString();
@@ -72,7 +74,6 @@ public class CrearCientifico extends AppCompatActivity {
             this.bd.insertarCientificoSql(rut,nombre,apPaterno,apMaterno,sexo);
             finish();
         }
-
     }
 
     public void lanzarToast(String mensaje){

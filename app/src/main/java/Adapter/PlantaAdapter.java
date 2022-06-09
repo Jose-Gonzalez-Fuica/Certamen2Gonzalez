@@ -1,10 +1,13 @@
 package Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,13 +30,13 @@ public class PlantaAdapter extends ArrayAdapter<PlantaModel> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         PlantaList = covertView;
-        PlantaList = inflater.inflate(R.layout.cientifico_item, parent, false);
+        PlantaList = inflater.inflate(R.layout.planta_item, parent, false);
 
         TextView codigo = (TextView) PlantaList.findViewById(R.id.tvCodigoPlanta);
         TextView nombre = (TextView) PlantaList.findViewById(R.id.tvNombrePlanta);
         TextView uso = (TextView) PlantaList.findViewById(R.id.tvUsoPlanta);
         TextView nombreCientifico = (TextView) PlantaList.findViewById(R.id.tvNombreCientificoPlanta);
-
+        ImageView ivPlantaAdapter = (ImageView) PlantaList.findViewById(R.id.ivPlantaAdapter);
 
 
         PlantaModel planta = getItem(position);
@@ -41,7 +44,8 @@ public class PlantaAdapter extends ArrayAdapter<PlantaModel> {
         nombre.setText(planta.getNombrePlanta()+"");
         uso.setText(planta.getUso()+"");
         nombreCientifico.setText(planta.getNombreCientifico()+"");
-
+        Bitmap image = BitmapFactory.decodeByteArray(planta.getFotoPlanta(), 0, planta.getFotoPlanta().length);
+        ivPlantaAdapter.setImageBitmap(image);
 
         return PlantaList;
     }
