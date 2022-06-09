@@ -256,10 +256,11 @@ public class BDGonzalez extends SQLiteOpenHelper {
             Cursor c = db.rawQuery("SELECT * FROM CientificoGonzalez", null);
 
             if (c.moveToFirst()) {
-                while (c.moveToNext()){
+                do {
                     cientifico = new CientificoModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4), c.getString(5));
                     cientificos.add(cientifico);
                 }
+                while(c.moveToNext());
                 this.close();
                 c.close();
 
@@ -268,7 +269,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
                 this.close();
                 c.close();
 
-                return null;
+                return cientificos;
             }
         } catch (Exception e) {
             return null;

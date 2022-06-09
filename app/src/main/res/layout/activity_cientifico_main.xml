@@ -8,14 +8,14 @@
 
     <ListView
         android:id="@+id/ListCientificos"
-        android:layout_width="358dp"
-        android:layout_height="303dp"
+        android:layout_width="393dp"
+        android:layout_height="373dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.007" />
+        app:layout_constraintVertical_bias="0.162" />
 
     <Button
         android:id="@+id/btnCrearCien"
@@ -29,4 +29,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ListCientificos"
         app:layout_constraintVertical_bias="0.618" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="43dp"
+        android:layout_height="19dp"
+        android:width="100dp"
+        android:text="Rut"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="53dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="24dp"
+        android:width="100px"
+        android:text="Nombre"
+        app:layout_constraintBottom_toTopOf="@+id/ListCientificos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="53dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="24dp"
+        android:width="100px"
+        android:text="ApPaterno"
+        app:layout_constraintBottom_toTopOf="@+id/ListCientificos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.386"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="53dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="24dp"
+        android:width="100px"
+        android:text="ApMaterno"
+        app:layout_constraintBottom_toTopOf="@+id/ListCientificos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.62"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="53dp"
+        android:layout_height="23dp"
+        android:width="100px"
+        android:text="Sexo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,7 @@ public class CientificoMain extends AppCompatActivity {
 
             }
         });
-        listarCientificos();
+       // listarCientificos();
     }
 
     public void listarCientificos()
@@ -64,7 +64,13 @@ public class CientificoMain extends AppCompatActivity {
         startActivity(prueba);
 
     }
+    @Override
+    public void onResume() {
 
+        listarCientificos();
+        super.onResume();
+
+    }
 
 }
 

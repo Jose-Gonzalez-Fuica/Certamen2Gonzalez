@@ -70,7 +70,7 @@ public class CrearCientifico extends AppCompatActivity {
             CientificoModel cientifico = new CientificoModel(15,rut,nombre,apPaterno,apMaterno,sexo);
 
             this.bd.insertarCientificoSql(rut,nombre,apPaterno,apMaterno,sexo);
-
+            finish();
         }
 
     }

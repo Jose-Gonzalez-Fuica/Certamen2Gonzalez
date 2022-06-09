@@ -23,4 +23,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(prueba);
 
     }
+    public void planta(View v)
+    {
+        Intent prueba = new Intent(this,PlantaMain.class);
+        startActivity(prueba);
+
+    }
 }

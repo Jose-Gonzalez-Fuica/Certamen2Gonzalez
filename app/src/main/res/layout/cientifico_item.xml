@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:width="100px"
+            android:width="45dp"
             android:text="TextView" />
 
         <TextView
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:width="100px"
+            android:width="80dp"
             android:text="TextView" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:width="100px"
+            android:width="60dp"
             android:text="TextView" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:width="100px"
+            android:width="100dp"
             android:text="TextView" />
 
         <TextView
@@ -46,8 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:width="30px"
-            android:text="TextView" />
+            android:width="10px"
+            android:text="T" />
 
     </LinearLayout>
 

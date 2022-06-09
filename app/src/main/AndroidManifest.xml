@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Certamen2Gonzalez">
         <activity
+            android:name=".CrearPlanta"
+            android:exported="false" />
+        <activity
+            android:name=".PlantaMain"
+            android:exported="false" />
+        <activity
             android:name=".CientificoEdit"
             android:exported="false" />
         <activity
