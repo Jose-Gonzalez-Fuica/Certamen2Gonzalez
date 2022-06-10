@@ -1,6 +1,8 @@
 package Models;
 
-public class PlantaModel {
+import java.io.Serializable;
+
+public class PlantaModel implements Serializable {
     private int id;
     private String codigoPlanta;
     private String nombrePlanta;

@@ -54,8 +54,7 @@ public class CientificoEdit extends AppCompatActivity {
         }
 
     }
-    public void modificar(View v)
-    {
+    public void modificar(View v) {
         String rut = txtRutCientifico.getText().toString();
         String nombre = txtNombre.getText().toString();
         String apMaterno = txtApellidoMaterno.getText().toString();

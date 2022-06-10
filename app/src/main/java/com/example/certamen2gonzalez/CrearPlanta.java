@@ -45,8 +45,7 @@ public class CrearPlanta extends AppCompatActivity {
         return false;
     }
 
-    protected void onActivityResult(int requesCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requesCode, int resultCode, Intent data) {
         super.onActivityResult(requesCode, resultCode, data);
         if (resultCode== Activity.RESULT_OK)
         {
@@ -84,9 +83,8 @@ public class CrearPlanta extends AppCompatActivity {
         else
         {
             PlantaModel planta = new PlantaModel(15,codigo,nombre,nombrecientificoplanta,byteArray,uso);
-
             this.bd.insertarPlantaSql(codigo,nombre,nombrecientificoplanta,byteArray,uso);
-          //  finish();
+           finish();
         }
 
     }

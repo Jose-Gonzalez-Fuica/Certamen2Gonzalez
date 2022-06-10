@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,6 +26,20 @@ public class PlantaMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planta_main);
         lvPlanta = (ListView) findViewById(R.id.lvPlanta);
+        lvPlanta.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                    long arg3)
+            {
+                PlantaModel value = (PlantaModel) adapter.getItemAtPosition(position);
+                Intent prueba = new Intent(getBaseContext(),PlantaEdit.class);
+                prueba.putExtra("planta",value);
+                startActivity(prueba);
+                // listarCientificos();
+
+            }
+        });
     }
     public void listarCientificos()
     {

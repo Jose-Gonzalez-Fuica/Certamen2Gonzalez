@@ -211,13 +211,14 @@ public class BDGonzalez extends SQLiteOpenHelper {
         boolean update = true;
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
-
-            String query = "UPDATE PlantaGonzalez " +
-                    "SET codigoPlanta = '" + planta.getCodigoPlanta() + "', nombrePlanta = '" + planta.getNombrePlanta() + "', " +
-                    "nombreCientifico = '" + planta.getNombreCientifico() + ", fotoPlanta = " + planta.getFotoPlanta() + ",  uso = '" + planta.getUso() + "' " +
-                    "WHERE id = " +  planta.getId() + "";
+            ContentValues valores = new ContentValues();
+            valores.put("codigoPlanta", planta.getCodigoPlanta());
+            valores.put("nombrePlanta", planta.getNombrePlanta());
+            valores.put("nombreCientifico", planta.getNombreCientifico());
+            valores.put("fotoPlanta", planta.getFotoPlanta());
+            valores.put("uso",  planta.getUso());
             try {
-                db.execSQL(query);
+                db.update("PlantaGonzalez",valores,"id = "+planta.getId(),null);
                 db.close();
             } catch (Exception e) {
                 db.close();
@@ -310,13 +311,33 @@ public class BDGonzalez extends SQLiteOpenHelper {
     //..................................................
     //extras
     //..................................................
-    public boolean checkRecoleccionCientifico(String rut)
-    {
+    public boolean checkRecoleccionCientifico(String rut) {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CientificoModel> cientificos = new ArrayList<CientificoModel>();
         CientificoModel cientifico;
         try {
             Cursor c = db.rawQuery("SELECT * FROM RecoleccionGonzalez WHERE rutCientifico = '"+rut+"'", null);
+
+            if (c.moveToFirst()) {
+                this.close();
+                c.close();
+                return true;
+            } else {
+                this.close();
+                c.close();
+
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public boolean checkRecoleccionPlanta(int codigo) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<PlantaModel> plantas = new ArrayList<PlantaModel>();
+        PlantaModel planta;
+        try {
+            Cursor c = db.rawQuery("SELECT * FROM RecoleccionGonzalez WHERE id = '"+codigo+"'", null);
 
             if (c.moveToFirst()) {
                 this.close();
