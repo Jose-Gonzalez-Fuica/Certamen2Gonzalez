@@ -13,12 +13,14 @@
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_cientifico_edit.xml" value="0.1875" />
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_cientifico_main.xml" value="0.3151041666666667" />
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_crear_cientifico.xml" value="0.22" />
-        <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_crear_planta.xml" value="0.36096014492753625" />
+        <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_crear_planta.xml" value="0.1" />
+        <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_crear_recoleccion.xml" value="0.33" />
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_main.xml" value="0.35054347826086957" />
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_planta_edit.xml" value="0.3625" />
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/activity_planta_main.xml" value="0.3625" />
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/cientifico_item.xml" value="0.3140625" />
         <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/planta_item.xml" value="0.1" />
+        <entry key="..\:/Virginio/Certamen2Gonzalez/app/src/main/res/layout/simple_spinner.xml" value="0.3614583333333333" />
       </map>
     </option>
   </component>

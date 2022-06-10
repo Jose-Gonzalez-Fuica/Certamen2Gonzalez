@@ -37,7 +37,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
 
         //identificador, fecha registro, código de la planta, rut del científico,
         // comentario, foto del lugar, localización (latitud y longitud) del lugar.
-        sqLiteDatabase.execSQL("CREATE TABLE RecolecciónGonzalez" +
+        sqLiteDatabase.execSQL("CREATE TABLE RecoleccionGonzalez" +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT, codigoPlanta TEXT, " +
                 "rutCientifico TEXT, comentario TEXT, fotoLugar BLOB,latitud REAL,longitud REAL )");
 
@@ -47,7 +47,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  CientificoGonzalez");
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  PlantaGonzalez");
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  RecolecciónGonzalez");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  RecoleccionGonzalez");
         onCreate(sqLiteDatabase);
     }
     //insert
@@ -107,14 +107,20 @@ public class BDGonzalez extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
         if(db != null){//PREGUNTO SI LA BASE EXISTE
 
-            try{
-
-                db.execSQL("INSERT INTO RecolecciónGonzalez VALUES("+"'" + fecha + "','" + codigoPlanta + "','" + rutCientifico + "',"+ comentario +","+ fotoLugar +","+ latitud +","+longitud+")") ;//INSERTA REGISTROS
+            ContentValues valores = new ContentValues();
+            valores.put("fecha", fecha);
+            valores.put("codigoPlanta", codigoPlanta);
+            valores.put("rutCientifico", rutCientifico);
+            valores.put("comentario", comentario);
+            valores.put("fotoLugar", fotoLugar);
+            valores.put("latitud", 0);
+            valores.put("longitud", 0);
+            try {
+                db.insert("RecoleccionGonzalez", "fotoLugar", valores);
                 db.close();
-
-            }catch(Exception e){
+            } catch (Exception e) {
                 db.close();
-                sw1=false;
+                sw1 = false;
             }
         }
         else{
@@ -166,7 +172,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         boolean delete = true;
         SQLiteDatabase db = getWritableDatabase();
         if (db != null){
-            String query = "DELETE FROM RecolecciónGonzalez WHERE id = " + id + "";
+            String query = "DELETE FROM RecoleccionGonzalez WHERE id = " + id + "";
             try {
                 db.execSQL(query);
                 db.close();
@@ -234,7 +240,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
 
-            String query = "UPDATE RecolecciónGonzalez " +
+            String query = "UPDATE RecoleccionGonzalez " +
                     "SET fecha = '" + recoleccion.getFecha() + "', codigoPlanta = '" + recoleccion.getCodigoPlanta() + "', " +
                     "rutCientifico = '" + recoleccion.getRutCientifico() + "', comentario = '" + recoleccion.getComentario() + "',  fotoLugar = '" + recoleccion.getFotoLugar() + "', " +
                     "latitud = " + recoleccion.getLatitud() + ", longitud = " + recoleccion.getLongitud() + " " +
@@ -303,6 +309,33 @@ public class BDGonzalez extends SQLiteOpenHelper {
                 c.close();
 
                 return plantas;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public ArrayList<RecoleccionModel> getRecoleccionSql(){
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<RecoleccionModel> recolecciones = new ArrayList<RecoleccionModel>();
+        RecoleccionModel recoleccion;
+        try {
+            Cursor c = db.rawQuery("SELECT * FROM RecoleccionGonzalez", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    recoleccion = new RecoleccionModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4),c.getBlob(5),c.getInt(6),c.getInt(7));
+                    recolecciones.add(recoleccion);
+                }
+                while(c.moveToNext());
+                this.close();
+                c.close();
+
+                return recolecciones;
+            } else {
+                this.close();
+                c.close();
+
+                return recolecciones;
             }
         } catch (Exception e) {
             return null;

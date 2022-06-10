@@ -29,4 +29,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(prueba);
 
     }
+    public void recoleccion(View v)
+    {
+        Intent prueba = new Intent(this,CrearRecoleccion.class);
+        startActivity(prueba);
+
+    }
 }
