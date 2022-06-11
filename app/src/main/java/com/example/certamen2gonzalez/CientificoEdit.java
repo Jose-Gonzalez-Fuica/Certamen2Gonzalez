@@ -99,7 +99,7 @@ public class CientificoEdit extends AppCompatActivity {
             if(!check)
             {
                 this.bd.deleteCientificoSql(rut);
-                lanzarToast("cientifico borrado rut :" + this.cient.getRut());
+                lanzarToast("cientifico borrado rut: " + this.cient.getRut());
                 finish();
             }
             else{
@@ -121,7 +121,8 @@ public class CientificoEdit extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @TargetApi(11)
                             public void onClick(DialogInterface dialog, int id) {
-                                lanzarToast("Gracias! Se eliminará!");
+
+                                lanzarToast("Se tratara de eliminar");
                                 Borrar();
                                 dialog.cancel();
                             }

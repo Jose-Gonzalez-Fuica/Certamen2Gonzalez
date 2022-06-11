@@ -51,6 +51,7 @@ public class PlantaEdit extends AppCompatActivity {
             txtUsoPlanta.setText(planta.getUso());
             Bitmap image = BitmapFactory.decodeByteArray(planta.getFotoPlanta(), 0, planta.getFotoPlanta().length);
             ivFotoPlanta.setImageBitmap(image);
+            this.bmp1=image;
         }
 
     }
@@ -103,14 +104,14 @@ public class PlantaEdit extends AppCompatActivity {
 
     }
     public void Borrar(){
+        String codigo = this.planta.getCodigoPlanta();
         int id = this.planta.getId();
-
         try {
-            boolean check=this.bd.checkRecoleccionPlanta(id);
+            boolean check=this.bd.checkRecoleccionPlanta(codigo);
             if(!check)
             {
                 this.bd.deletePlantasSql(id);
-                lanzarToast("planta borrado codigo :" + this.planta.getCodigoPlanta());
+                lanzarToast("planta borrado codigo: " + this.planta.getCodigoPlanta());
                 finish();
             }
             else{
@@ -132,7 +133,7 @@ public class PlantaEdit extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @TargetApi(11)
                             public void onClick(DialogInterface dialog, int id) {
-                                lanzarToast("Gracias! Se eliminará!");
+                                lanzarToast("Se tratara de eliminar");
                                 Borrar();
                                 dialog.cancel();
                             }

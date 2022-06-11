@@ -240,13 +240,14 @@ public class BDGonzalez extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
 
-            String query = "UPDATE RecolecciónGonzalez " +
-                    "SET fecha = '" + recoleccion.getFecha() + "', codigoPlanta = '" + recoleccion.getCodigoPlanta() + "', " +
-                    "rutCientifico = '" + recoleccion.getRutCientifico() + "', comentario = '" + recoleccion.getComentario() + "',  fotoLugar = '" + recoleccion.getFotoLugar() + "', " +
-                    "latitud = " + recoleccion.getLatitud() + ", longitud = " + recoleccion.getLongitud() + " " +
-                    "WHERE id = " +  recoleccion.getId() + "";
+            ContentValues valores = new ContentValues();
+            valores.put("fecha", recoleccion.getFecha());
+            valores.put("codigoPlanta", recoleccion.getCodigoPlanta());
+            valores.put("rutCientifico", recoleccion.getRutCientifico());
+            valores.put("fotoLugar", recoleccion.getFotoLugar());
+            valores.put("comentario",  recoleccion.getComentario());
             try {
-                db.execSQL(query);
+                db.update("RecolecciónGonzalez",valores,"id = "+recoleccion.getId(),null);
                 db.close();
             } catch (Exception e) {
                 db.close();
@@ -341,6 +342,33 @@ public class BDGonzalez extends SQLiteOpenHelper {
             return null;
         }
     }
+    public ArrayList<RecoleccionModel> getRecoleccionByCientificoSql(String rut){
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<RecoleccionModel> recolecciones = new ArrayList<RecoleccionModel>();
+        RecoleccionModel recoleccion;
+        try {
+            Cursor c = db.rawQuery("SELECT * FROM RecolecciónGonzalez WHERE rutCientifico ='"+rut+"'", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    recoleccion = new RecoleccionModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4),c.getBlob(5),c.getInt(6),c.getInt(7));
+                    recolecciones.add(recoleccion);
+                }
+                while(c.moveToNext());
+                this.close();
+                c.close();
+
+                return recolecciones;
+            } else {
+                this.close();
+                c.close();
+
+                return recolecciones;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
     //..................................................
     //extras
     //..................................................
@@ -365,12 +393,12 @@ public class BDGonzalez extends SQLiteOpenHelper {
             return false;
         }
     }
-    public boolean checkRecoleccionPlanta(int codigo) {
+    public boolean checkRecoleccionPlanta(String codigo) {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<PlantaModel> plantas = new ArrayList<PlantaModel>();
         PlantaModel planta;
         try {
-            Cursor c = db.rawQuery("SELECT * FROM RecolecciónGonzalez WHERE id = '"+codigo+"'", null);
+            Cursor c = db.rawQuery("SELECT * FROM RecolecciónGonzalez WHERE codigoPlanta = '"+codigo+"'", null);
 
             if (c.moveToFirst()) {
                 this.close();

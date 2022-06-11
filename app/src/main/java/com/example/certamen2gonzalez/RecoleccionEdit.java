@@ -1,13 +1,19 @@
 package com.example.certamen2gonzalez;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -16,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import BD.BDGonzalez;
@@ -32,7 +39,7 @@ public class RecoleccionEdit extends AppCompatActivity {
     Spinner spCodigoPlanta, spRutCientifico;
     Bitmap bmp1;
     ImageView ivFotoRecoleccion;
-    RecoleccionModel recolecccion;
+    RecoleccionModel recoleccion;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -56,11 +63,12 @@ public class RecoleccionEdit extends AppCompatActivity {
         });
         this.bd = new BDGonzalez(this);
         if (getIntent().getExtras() != null) {
-            this.recolecccion = (RecoleccionModel) getIntent().getSerializableExtra("recoleccion");
-            etFechaRecoleccion.setText(recolecccion.getFecha());
-            txtComentarioRecoleccion.setText(recolecccion.getComentario());
-            Bitmap image = BitmapFactory.decodeByteArray(recolecccion.getFotoLugar(), 0, recolecccion.getFotoLugar().length);
+            this.recoleccion = (RecoleccionModel) getIntent().getSerializableExtra("recoleccion");
+            etFechaRecoleccion.setText(recoleccion.getFecha());
+            txtComentarioRecoleccion.setText(recoleccion.getComentario());
+            Bitmap image = BitmapFactory.decodeByteArray(recoleccion.getFotoLugar(), 0, recoleccion.getFotoLugar().length);
             ivFotoRecoleccion.setImageBitmap(image);
+            this.bmp1=image;
             ArrayList<PlantaModel> listaPlantas = this.bd.getPlantasSql();
             ArrayList<String> listaPlantasString = new ArrayList<String>();
             ArrayList<CientificoModel> listaCientificos = this.bd.getCientificosSql();
@@ -72,8 +80,8 @@ public class RecoleccionEdit extends AppCompatActivity {
             ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.simple_spinner, listaCientificosRuts);
             spRutCientifico.setAdapter(adapter2);
             spCodigoPlanta.setAdapter(adapter);
-            int positionc = adapter2.getPosition(this.recolecccion.getRutCientifico());
-            int positionp = adapter.getPosition(this.recolecccion.getCodigoPlanta());
+            int positionc = adapter2.getPosition(this.recoleccion.getRutCientifico());
+            int positionp = adapter.getPosition(this.recoleccion.getCodigoPlanta());
             spCodigoPlanta.setSelection(positionp);
             spRutCientifico.setSelection(positionc);
         }
@@ -93,4 +101,88 @@ public class RecoleccionEdit extends AppCompatActivity {
 
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
+    public boolean TomarFoto(View v) {
+        Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent1, cons);
+        return false;
+    }
+
+    protected void onActivityResult(int requesCode, int resultCode, Intent data) {
+        super.onActivityResult(requesCode, resultCode, data);
+        if (resultCode== Activity.RESULT_OK)
+        {
+            Bundle ext=data.getExtras();
+            bmp1=(Bitmap)ext.get("data");
+            ivFotoRecoleccion.setImageBitmap(bmp1);
+        }
+    }
+    public void Editar(View v){
+        String fecha="";
+        String comentario="";
+        String codigoPlanta;
+        String rutCientifico;
+        String error="";
+        codigoPlanta = spCodigoPlanta.getSelectedItem().toString();
+        rutCientifico = spRutCientifico.getSelectedItem().toString();
+        byte [] byteArray = new byte[0];
+        if(bmp1==null)
+            error="Debe tomar foto primero";
+        else {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp1.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byteArray = stream.toByteArray();
+        }
+        if(etFechaRecoleccion.getText().toString().isEmpty())
+            error+="Debe Seleccionar fecha\n";
+        else
+            fecha = etFechaRecoleccion.getText().toString();
+        if(txtComentarioRecoleccion.getText().toString().isEmpty())
+            error+="Debe ingresar comentario\n";
+        else
+            comentario = txtComentarioRecoleccion.getText().toString();
+        if(!error.isEmpty())
+            lanzarToast(error);
+        else
+        {
+            RecoleccionModel recoleccion = new RecoleccionModel(this.recoleccion.getId(),fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
+            this.bd.updateRecoleccionSql(recoleccion);
+            finish();
+        }
+    }
+
+    public void Borrar(){
+        int id = this.recoleccion.getId();
+        try {
+            this.bd.deleteRecoleccionSql(id);
+            lanzarToast("recolecccion borrado codigo: " + this.recoleccion.getFecha());
+            finish();
+        }catch (Exception e)
+        {
+            lanzarToast("error en borrado");
+        }
+    }
+    public void dialogo_doble(View view){
+        new AlertDialog.Builder(this)
+                .setTitle("Estas seguro de eliminar?")
+                .setMessage("Usted desea eliminar a " + this.recoleccion.getFecha())
+
+                .setPositiveButton("SI",
+                        new DialogInterface.OnClickListener() {
+                            @TargetApi(11)
+                            public void onClick(DialogInterface dialog, int id) {
+                                lanzarToast("Se tratara de eliminar");
+                                Borrar();
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @TargetApi(11)
+                    public void onClick(DialogInterface dialog, int id) {
+                        lanzarToast("Se arrepintió de eliminar");
+                        dialog.cancel();
+                    }
+                }).show();
+
+    }
+
 }

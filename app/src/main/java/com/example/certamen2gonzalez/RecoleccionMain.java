@@ -27,6 +27,7 @@ public class RecoleccionMain extends AppCompatActivity {
     ListView lvRecoleccion;
     BDGonzalez bd;
     Spinner spCientificoRecoleccion;
+    String rutSeleccionado="";
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,24 +56,31 @@ public class RecoleccionMain extends AppCompatActivity {
             finish();
         }
         listaCientificos.forEach(CientificoModel -> listaCientificosRuts.add(CientificoModel.getRut()));
-
         ArrayAdapter adapter2 = new ArrayAdapter(this,R.layout.simple_spinner,listaCientificosRuts);
         spCientificoRecoleccion.setAdapter(adapter2);
-        spCientificoRecoleccion.setSelection(0);
+        spCientificoRecoleccion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String rut=spCientificoRecoleccion.getSelectedItem().toString();
+                listarRecolecccion(rut);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spCientificoRecoleccion.setSelection(0);
     }
-    public void listarRecolecccion(){
+    public void listarRecolecccion(String rut){
+        this.rutSeleccionado=rut;
         BDGonzalez bd = new BDGonzalez(this);
         ArrayList<RecoleccionModel> list = new ArrayList<RecoleccionModel>();
-        list = bd.getRecoleccionSql();
-        if(list.isEmpty()){
+        list = bd.getRecoleccionByCientificoSql(this.rutSeleccionado);
+        if(list.isEmpty())
             lanzarToast("No hay datos");
-        }
-        else
-        {
-            RecoleccionAdapter adapter = new RecoleccionAdapter(this,0,list);
-            lvRecoleccion.setAdapter(adapter);
-        }
+        RecoleccionAdapter adapter = new RecoleccionAdapter(this,0,list);
+        lvRecoleccion.setAdapter(adapter);
     }
     public void Crear(View v){
         Intent prueba = new Intent(this,CrearRecoleccion.class);
@@ -81,8 +89,8 @@ public class RecoleccionMain extends AppCompatActivity {
     }
     @Override
     public void onResume() {
-
-        listarRecolecccion();
+        if(!this.rutSeleccionado.isEmpty())
+        listarRecolecccion(this.rutSeleccionado);
         super.onResume();
 
     }
