@@ -37,7 +37,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
 
         //identificador, fecha registro, código de la planta, rut del científico,
         // comentario, foto del lugar, localización (latitud y longitud) del lugar.
-        sqLiteDatabase.execSQL("CREATE TABLE RecoleccionGonzalez" +
+        sqLiteDatabase.execSQL("CREATE TABLE RecolecciónGonzalez" +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT, codigoPlanta TEXT, " +
                 "rutCientifico TEXT, comentario TEXT, fotoLugar BLOB,latitud REAL,longitud REAL )");
 
@@ -47,7 +47,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  CientificoGonzalez");
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  PlantaGonzalez");
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  RecoleccionGonzalez");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS  RecolecciónGonzalez");
         onCreate(sqLiteDatabase);
     }
     //insert
@@ -116,7 +116,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
             valores.put("latitud", 0);
             valores.put("longitud", 0);
             try {
-                db.insert("RecoleccionGonzalez", "fotoLugar", valores);
+                db.insert("RecolecciónGonzalez", "fotoLugar", valores);
                 db.close();
             } catch (Exception e) {
                 db.close();
@@ -172,7 +172,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         boolean delete = true;
         SQLiteDatabase db = getWritableDatabase();
         if (db != null){
-            String query = "DELETE FROM RecoleccionGonzalez WHERE id = " + id + "";
+            String query = "DELETE FROM RecolecciónGonzalez WHERE id = " + id + "";
             try {
                 db.execSQL(query);
                 db.close();
@@ -240,7 +240,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
 
-            String query = "UPDATE RecoleccionGonzalez " +
+            String query = "UPDATE RecolecciónGonzalez " +
                     "SET fecha = '" + recoleccion.getFecha() + "', codigoPlanta = '" + recoleccion.getCodigoPlanta() + "', " +
                     "rutCientifico = '" + recoleccion.getRutCientifico() + "', comentario = '" + recoleccion.getComentario() + "',  fotoLugar = '" + recoleccion.getFotoLugar() + "', " +
                     "latitud = " + recoleccion.getLatitud() + ", longitud = " + recoleccion.getLongitud() + " " +
@@ -319,7 +319,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         ArrayList<RecoleccionModel> recolecciones = new ArrayList<RecoleccionModel>();
         RecoleccionModel recoleccion;
         try {
-            Cursor c = db.rawQuery("SELECT * FROM RecoleccionGonzalez", null);
+            Cursor c = db.rawQuery("SELECT * FROM RecolecciónGonzalez", null);
 
             if (c.moveToFirst()) {
                 do {
@@ -349,7 +349,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         ArrayList<CientificoModel> cientificos = new ArrayList<CientificoModel>();
         CientificoModel cientifico;
         try {
-            Cursor c = db.rawQuery("SELECT * FROM RecoleccionGonzalez WHERE rutCientifico = '"+rut+"'", null);
+            Cursor c = db.rawQuery("SELECT * FROM RecolecciónGonzalez WHERE rutCientifico = '"+rut+"'", null);
 
             if (c.moveToFirst()) {
                 this.close();
@@ -370,7 +370,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         ArrayList<PlantaModel> plantas = new ArrayList<PlantaModel>();
         PlantaModel planta;
         try {
-            Cursor c = db.rawQuery("SELECT * FROM RecoleccionGonzalez WHERE id = '"+codigo+"'", null);
+            Cursor c = db.rawQuery("SELECT * FROM RecolecciónGonzalez WHERE id = '"+codigo+"'", null);
 
             if (c.moveToFirst()) {
                 this.close();

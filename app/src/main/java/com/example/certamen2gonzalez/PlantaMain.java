@@ -16,6 +16,7 @@ import Adapter.PlantaAdapter;
 import BD.BDGonzalez;
 import Models.CientificoModel;
 import Models.PlantaModel;
+import Models.RecoleccionModel;
 
 public class PlantaMain extends AppCompatActivity {
 
@@ -36,16 +37,14 @@ public class PlantaMain extends AppCompatActivity {
                 Intent prueba = new Intent(getBaseContext(),PlantaEdit.class);
                 prueba.putExtra("planta",value);
                 startActivity(prueba);
-                // listarCientificos();
+                // listarPlantas();
 
             }
         });
     }
-    public void listarCientificos()
-    {
+    public void listarPlantas(){
         BDGonzalez bd = new BDGonzalez(this);
-        ArrayList<PlantaModel> list = new ArrayList<PlantaModel>();
-        list = bd.getPlantasSql();
+        ArrayList<PlantaModel> list = bd.getPlantasSql();
         if(list.isEmpty()){
             lanzarToast("No hay datos");
         }
@@ -55,8 +54,7 @@ public class PlantaMain extends AppCompatActivity {
             lvPlanta.setAdapter(adapter);
         }
     }
-    public void Crear(View v)
-    {
+    public void Crear(View v){
         Intent prueba = new Intent(this,CrearPlanta.class);
         startActivity(prueba);
 
@@ -64,7 +62,7 @@ public class PlantaMain extends AppCompatActivity {
     @Override
     public void onResume() {
 
-        listarCientificos();
+        listarPlantas();
         super.onResume();
 
     }

@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Certamen2Gonzalez">
         <activity
+            android:name=".RecoleccionEdit"
+            android:exported="false" />
+        <activity
+            android:name=".RecoleccionMain"
+            android:exported="false" />
+        <activity
             android:name=".CrearRecoleccion"
             android:exported="false" />
         <activity

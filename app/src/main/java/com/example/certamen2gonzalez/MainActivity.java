@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void recoleccion(View v)
     {
-        Intent prueba = new Intent(this,CrearRecoleccion.class);
+        Intent prueba = new Intent(this,RecoleccionMain.class);
         startActivity(prueba);
 
     }

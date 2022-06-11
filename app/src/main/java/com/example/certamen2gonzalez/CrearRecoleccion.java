@@ -42,6 +42,8 @@ public class CrearRecoleccion extends AppCompatActivity {
         etFechaRecoleccion = (EditText) findViewById(R.id.etFechaRecoleccion);
         txtComentarioRecoleccion = (EditText) findViewById(R.id.txtComentarioRecoleccion);
         ivFotoRecoleccion = (ImageView) findViewById(R.id.ivFotoRecoleccion);
+        spCodigoPlanta = (Spinner) findViewById(R.id.spCodigoPlanta);
+        spRutCientifico = (Spinner) findViewById(R.id.spRutCientifico);
         etFechaRecoleccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,8 +69,7 @@ public class CrearRecoleccion extends AppCompatActivity {
         }
         listaPlantas.forEach(plantaModel -> listaPlantasString.add(plantaModel.getCodigoPlanta()));
         listaCientificos.forEach(CientificoModel -> listaCientificosRuts.add(CientificoModel.getRut()));
-        spCodigoPlanta = (Spinner) findViewById(R.id.spCodigoPlanta);
-        spRutCientifico = (Spinner) findViewById(R.id.spRutCientifico);
+
         ArrayAdapter adapter = new ArrayAdapter(this,R.layout.simple_spinner,listaPlantasString);
         ArrayAdapter adapter2 = new ArrayAdapter(this,R.layout.simple_spinner,listaCientificosRuts);
         spRutCientifico.setAdapter(adapter2);
@@ -137,7 +138,7 @@ public class CrearRecoleccion extends AppCompatActivity {
         {
             RecoleccionModel recoleccion = new RecoleccionModel(15,fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
             this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
-            //finish();
+            finish();
         }
     }
     public void lanzarToast(String mensaje){

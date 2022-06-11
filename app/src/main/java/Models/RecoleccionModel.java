@@ -1,6 +1,8 @@
 package Models;
 
-public class RecoleccionModel {
+import java.io.Serializable;
+
+public class RecoleccionModel implements Serializable {
 
     private int id;
     private String fecha;
