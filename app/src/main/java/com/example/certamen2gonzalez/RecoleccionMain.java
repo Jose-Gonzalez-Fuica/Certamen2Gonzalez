@@ -21,7 +21,7 @@ import BD.BDGonzalez;
 import Models.CientificoModel;
 import Models.PlantaModel;
 import Models.RecoleccionModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class RecoleccionMain extends AppCompatActivity {
 
     ListView lvRecoleccion;

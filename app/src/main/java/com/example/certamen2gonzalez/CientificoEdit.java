@@ -16,6 +16,8 @@ import android.widget.Toast;
 import BD.BDGonzalez;
 import Models.CientificoModel;
 
+//  Jose Esteban Gonzalez Fuica 18800804-6
+
 public class CientificoEdit extends AppCompatActivity {
     EditText txtRutCientifico;
     EditText txtNombre;

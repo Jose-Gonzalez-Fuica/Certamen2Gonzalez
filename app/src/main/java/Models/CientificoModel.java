@@ -1,7 +1,7 @@
 package Models;
 
 import java.io.Serializable;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class CientificoModel implements Serializable {
 
     private int id;

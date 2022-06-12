@@ -26,7 +26,7 @@ import Models.CientificoModel;
 import Models.DatePickerFragment;
 import Models.PlantaModel;
 import Models.RecoleccionModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class CrearRecoleccion extends AppCompatActivity {
     final static int cons=0;
     EditText etFechaRecoleccion,txtComentarioRecoleccion;

@@ -18,7 +18,7 @@ import java.util.List;
 
 
 import Models.PlantaModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class PlantaAdapter extends ArrayAdapter<PlantaModel> {
     View PlantaList;
 

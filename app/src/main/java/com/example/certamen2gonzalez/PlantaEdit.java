@@ -21,7 +21,7 @@ import java.io.ByteArrayOutputStream;
 import BD.BDGonzalez;
 import Models.CientificoModel;
 import Models.PlantaModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class PlantaEdit extends AppCompatActivity {
 
     final static int cons=0;

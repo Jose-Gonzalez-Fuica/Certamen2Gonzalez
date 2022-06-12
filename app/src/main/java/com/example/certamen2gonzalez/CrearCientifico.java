@@ -15,7 +15,7 @@ import java.util.List;
 
 import BD.BDGonzalez;
 import Models.CientificoModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class CrearCientifico extends AppCompatActivity {
     EditText txtRutCientifico;
     EditText txtNombre;

@@ -18,7 +18,7 @@ import java.util.List;
 
 
 import Models.RecoleccionModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class RecoleccionAdapter extends ArrayAdapter<RecoleccionModel> {
     View RecolecccionList;
 

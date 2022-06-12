@@ -16,7 +16,7 @@ import android.widget.Button;
  */
 public class Datos extends Fragment {
 
-
+    //  Jose Esteban Gonzalez Fuica 18800804-6
     View view;
 
     // TODO: Rename parameter arguments, choose names that match

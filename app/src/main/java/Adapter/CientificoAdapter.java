@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import Models.CientificoModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class CientificoAdapter extends ArrayAdapter<CientificoModel> {
     View CientificoList;
 

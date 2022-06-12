@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import Adapter.CientificoAdapter;
 import BD.BDGonzalez;
 import Models.CientificoModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class CientificoMain extends AppCompatActivity {
 
     ListView ListCientificos;

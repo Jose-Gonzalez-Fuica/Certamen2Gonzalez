@@ -12,7 +12,7 @@ import android.view.View;
 import java.util.List;
 
 import Models.CientificoModel;
-
+//  Jose Esteban Gonzalez Fuica 18800804-6
 public class MainActivity extends AppCompatActivity {
 
     Fragment datos;
