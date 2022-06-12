@@ -16,7 +16,7 @@ import android.widget.Button;
  */
 public class Datos extends Fragment {
 
-    Button btn1;
+
     View view;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -67,12 +67,7 @@ public class Datos extends Fragment {
                              Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_datos, container, false);
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
 
         // Inflate the layout for this fragment
         return view;
