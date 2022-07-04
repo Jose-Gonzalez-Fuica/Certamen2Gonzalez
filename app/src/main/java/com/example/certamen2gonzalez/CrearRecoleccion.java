@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import BD.BDGonzalez;
+import BD.BDRemota;
 import Models.CientificoModel;
 import Models.DatePickerFragment;
 import Models.PlantaModel;
@@ -138,6 +139,8 @@ public class CrearRecoleccion extends AppCompatActivity {
         {
             RecoleccionModel recoleccion = new RecoleccionModel(15,fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
             this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
+            BDRemota test = new BDRemota();
+            test.PostRecoleccion(recoleccion);
             finish();
         }
     }

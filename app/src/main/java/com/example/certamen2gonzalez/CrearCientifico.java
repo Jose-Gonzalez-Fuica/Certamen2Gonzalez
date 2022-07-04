@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import BD.BDGonzalez;
+import BD.BDRemota;
 import Models.CientificoModel;
 //  Jose Esteban Gonzalez Fuica 18800804-6
 public class CrearCientifico extends AppCompatActivity {
@@ -72,6 +73,7 @@ public class CrearCientifico extends AppCompatActivity {
             CientificoModel cientifico = new CientificoModel(15,rut,nombre,apPaterno,apMaterno,sexo);
 
             this.bd.insertarCientificoSql(rut,nombre,apPaterno,apMaterno,sexo);
+
             finish();
         }
     }

@@ -1,24 +1,34 @@
 package com.example.certamen2gonzalez;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 import Adapter.CientificoAdapter;
 import BD.BDGonzalez;
+import BD.BDRemota;
 import Models.CientificoModel;
+import Models.PlantaModel;
+import Models.RecoleccionModel;
+
 //  Jose Esteban Gonzalez Fuica 18800804-6
 public class CientificoMain extends AppCompatActivity {
 
     ListView ListCientificos;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +49,11 @@ public class CientificoMain extends AppCompatActivity {
             }
         });
        // listarCientificos();
+        BDRemota test = new BDRemota();
+        ArrayList<PlantaModel> test2 = test.recibirdatosPlanta();
+        ArrayList<CientificoModel> test3 = test.recibirdatosCientifico();
+        ArrayList<RecoleccionModel> test4= test.recibirdatosRecoleccion();
+        System.out.println(test2);
     }
 
     public void listarCientificos()
@@ -71,6 +86,7 @@ public class CientificoMain extends AppCompatActivity {
         super.onResume();
 
     }
+
 
 }
 
