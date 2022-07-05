@@ -12,4 +12,7 @@
     <item android:id="@+id/btSideRecolecciones"
         android:title="Recolecciones"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/btnMaps"
+        android:title="Maps" />
 </menu>

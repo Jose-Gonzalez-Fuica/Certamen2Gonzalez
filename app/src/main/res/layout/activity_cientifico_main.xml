@@ -8,8 +8,8 @@
 
     <ListView
         android:id="@+id/ListCientificos"
-        android:layout_width="358dp"
-        android:layout_height="374dp"
+        android:layout_width="406dp"
+        android:layout_height="367dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

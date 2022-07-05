@@ -36,7 +36,8 @@ public class RecoleccionAdapter extends ArrayAdapter<RecoleccionModel> {
         TextView rut = (TextView) RecolecccionList.findViewById(R.id.tvRutCientificoRecoleccion);
         TextView comentario = (TextView) RecolecccionList.findViewById(R.id.tvComentarioRecoleccion);
         ImageView ivPlantaAdapter = (ImageView) RecolecccionList.findViewById(R.id.ivRecoleccionAdapter);
-
+        TextView latitud = (TextView) RecolecccionList.findViewById(R.id.tvLatitud);
+        TextView longitud = (TextView) RecolecccionList.findViewById(R.id.tvLongitud);
 
         RecoleccionModel recoleccion = getItem(position);
         fecha.setText(recoleccion.getFecha()+"");

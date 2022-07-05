@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, RecoleccionMain.class);
                 startActivity(intent);
                 return true;
+            case R.id.btnMaps:
+                intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.

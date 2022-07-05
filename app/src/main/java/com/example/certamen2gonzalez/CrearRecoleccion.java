@@ -1,12 +1,23 @@
 package com.example.certamen2gonzalez;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,6 +46,10 @@ public class CrearRecoleccion extends AppCompatActivity {
     Spinner spCodigoPlanta,spRutCientifico;
     Bitmap bmp1;
     ImageView ivFotoRecoleccion;
+    Location location;
+    LocationManager locationManager;
+    Double latitud;
+    Double longitud;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +92,32 @@ public class CrearRecoleccion extends AppCompatActivity {
         spRutCientifico.setSelection(0);
         spCodigoPlanta.setAdapter(adapter);
         spCodigoPlanta.setSelection(0);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))    // chequea si está activo gps
+            AlertGPS();
+
+        if (ContextCompat.checkSelfPermission(CrearRecoleccion.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(CrearRecoleccion.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(CrearRecoleccion.this, new String[]
+                    {
+                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        };
+
+        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                String latitud1 =String.valueOf(location.getLatitude());
+                String longitud1 = String.valueOf(location.getLongitude());
+                latitud = Double.parseDouble(latitud1);
+                longitud=Double.parseDouble(longitud1);
+                Lanzar
+            }
+
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {
+                LocationListener.super.onProviderDisabled(provider);
+            }
+        });
 
     }
     private void showDatePickerDialog() {
@@ -138,7 +179,7 @@ public class CrearRecoleccion extends AppCompatActivity {
         else
         {
             RecoleccionModel recoleccion = new RecoleccionModel(15,fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
-            this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
+            this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud);
             BDRemota test = new BDRemota();
             test.PostRecoleccion(recoleccion);
             finish();
@@ -147,4 +188,24 @@ public class CrearRecoleccion extends AppCompatActivity {
     public void lanzarToast(String mensaje){
         Toast.makeText(this,mensaje,Toast.LENGTH_LONG).show();
     }
+    public void AlertGPS(){
+        new AlertDialog.Builder(this)
+                .setTitle("Activar GPS")
+                .setMessage("El GPS esta desactivado ¿Desea Activarlo?")
+                .setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            @TargetApi(11)
+                            public void onClick(DialogInterface dialog, int id) {
+                                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                //dialog.cancel();
+                            }
+                        })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @TargetApi(11)
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                }).show();
+    }
+
 }
