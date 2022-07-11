@@ -19,6 +19,7 @@ import BD.BDGonzalez;
 import BD.BDRemota;
 import Models.CientificoModel;
 import Models.PlantaModel;
+import Models.RecoleccionModel;
 
 public class Datos_Remoto extends AppCompatActivity {
 
@@ -149,5 +150,32 @@ public class Datos_Remoto extends AppCompatActivity {
         }
         list = lstC;
         return list;
+    }
+
+    //Recoleccion
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void GuardarRecoleccionesRemotas(View v)
+    {
+        ArrayList<RecoleccionModel> listRL = new ArrayList<RecoleccionModel>();
+        listRL = local.getRecoleccionSql();
+        int count = 0;
+        String response = "";
+
+        for(RecoleccionModel itemR : listRL){
+            if(itemR.isSend()==0) {
+                response = bd.PostRecoleccion(itemR);
+                local.updateRecoleccionSql(itemR,1);
+                count++;
+            }
+        }
+
+        if(count > 0){
+            if(response.equals("OK"))
+                lanzarToast( "Las " + count+ " Recolecciones de la BD Local se han guardado exitosamente en la nube");
+            else
+                lanzarToast( "Ha ocurrido un error!!\n" + response);
+        }
+        else
+            lanzarToast( "Todas las Recolecciones de Local ya se encuentran en la nube!!");
     }
 }

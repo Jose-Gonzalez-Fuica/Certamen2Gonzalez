@@ -12,7 +12,10 @@ public class RecoleccionModel implements Serializable {
     private byte[] fotoLugar;
     private double latitud;
     private double longitud;
-    private boolean send;
+    private int send;
+
+
+
     public RecoleccionModel() {
     }
 
@@ -25,7 +28,7 @@ public class RecoleccionModel implements Serializable {
         this.fotoLugar = fotoLugar;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.send=false;
+        this.send=0;
     }
 
     public int getId() {
@@ -90,5 +93,12 @@ public class RecoleccionModel implements Serializable {
 
     public void setLongitud(double longitud) {
         this.longitud = longitud;
+    }
+    public int isSend() {
+        return send;
+    }
+
+    public void setSend(int send) {
+        this.send = send;
     }
 }

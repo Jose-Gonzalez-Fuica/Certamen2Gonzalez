@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -72,6 +73,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         ArrayList<RecoleccionModel> rList = this.recolecciones;
+        if(rList.size()==0){
+            lanzarToast("Error debe ingresar Cientifico primero");
+            finish();
+        }
         PolylineOptions POLILINEA = new PolylineOptions();
 
         if (rList.size() > 0){
@@ -106,5 +111,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+    }
+    public void lanzarToast(String mensaje){
+        Toast.makeText(this,mensaje,Toast.LENGTH_LONG).show();
     }
 }

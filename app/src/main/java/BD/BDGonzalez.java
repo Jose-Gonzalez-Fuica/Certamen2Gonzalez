@@ -39,7 +39,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         // comentario, foto del lugar, localización (latitud y longitud) del lugar.
         sqLiteDatabase.execSQL("CREATE TABLE RecolecciónGonzalez" +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT, codigoPlanta TEXT, " +
-                "rutCientifico TEXT, comentario TEXT, fotoLugar BLOB,latitud REAL,longitud REAL,send boolean)");
+                "rutCientifico TEXT, comentario TEXT, fotoLugar BLOB,latitud REAL,longitud REAL,INTEGER send)");
 
     }
 
@@ -115,7 +115,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
             valores.put("fotoLugar", fotoLugar);
             valores.put("latitud", latitud);
             valores.put("longitud", longitud);
-            valores.put("send",true);
+            valores.put("send",1);
             try {
                 db.insert("RecolecciónGonzalez", "fotoLugar", valores);
                 db.close();
@@ -236,7 +236,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         }
         return update;
     }
-    public boolean updateRecoleccionSql(RecoleccionModel recoleccion) {
+    public boolean updateRecoleccionSql(RecoleccionModel recoleccion,int send) {
         boolean update = true;
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
@@ -247,6 +247,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
             valores.put("rutCientifico", recoleccion.getRutCientifico());
             valores.put("fotoLugar", recoleccion.getFotoLugar());
             valores.put("comentario",  recoleccion.getComentario());
+            valores.put("send", send);
             try {
                 db.update("RecolecciónGonzalez",valores,"id = "+recoleccion.getId(),null);
                 db.close();

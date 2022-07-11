@@ -145,7 +145,7 @@ public class RecoleccionEdit extends AppCompatActivity {
         else
         {
             RecoleccionModel recoleccion = new RecoleccionModel(this.recoleccion.getId(),fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
-            this.bd.updateRecoleccionSql(recoleccion);
+            this.bd.updateRecoleccionSql(recoleccion,2);
             finish();
         }
     }
