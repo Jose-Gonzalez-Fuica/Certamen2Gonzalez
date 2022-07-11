@@ -50,6 +50,7 @@ public class CrearRecoleccion extends AppCompatActivity {
     LocationManager locationManager;
     Double latitud;
     Double longitud;
+    boolean cargando=true;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +145,7 @@ public class CrearRecoleccion extends AppCompatActivity {
                     String longitud1 = String.valueOf(location.getLongitude());
                     latitud = Double.parseDouble(latitud1);
                     longitud=Double.parseDouble(longitud1);
-
+                    cargando=false;
                 }
 
                 @Override
@@ -152,6 +153,7 @@ public class CrearRecoleccion extends AppCompatActivity {
                     LocationListener.super.onProviderDisabled(provider);
                 }
             });
+
         }catch (Exception e)
         {
             lanzarToast("error "+e);
@@ -160,39 +162,44 @@ public class CrearRecoleccion extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void Crear(View v){
-        String fecha="";
-        String comentario="";
-        String codigoPlanta;
-        String rutCientifico;
-        String error="";
-        codigoPlanta = spCodigoPlanta.getSelectedItem().toString();
-        rutCientifico = spRutCientifico.getSelectedItem().toString();
-        byte [] byteArray = new byte[0];
-        if(bmp1==null)
-            error="Debe tomar foto primero";
-        else {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp1.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byteArray = stream.toByteArray();
+        if(!cargando)
+        {
+            String fecha="";
+            String comentario="";
+            String codigoPlanta;
+            String rutCientifico;
+            String error="";
+            codigoPlanta = spCodigoPlanta.getSelectedItem().toString();
+            rutCientifico = spRutCientifico.getSelectedItem().toString();
+            byte [] byteArray = new byte[0];
+            if(bmp1==null)
+                error="Debe tomar foto primero";
+            else {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp1.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byteArray = stream.toByteArray();
+            }
+            if(etFechaRecoleccion.getText().toString().isEmpty())
+                error+="Debe Seleccionar fecha\n";
+            else
+                fecha = etFechaRecoleccion.getText().toString();
+            if(txtComentarioRecoleccion.getText().toString().isEmpty())
+                error+="Debe ingresar comentario\n";
+            else
+                comentario = txtComentarioRecoleccion.getText().toString();
+            if(!error.isEmpty())
+                lanzarToast(error);
+            else
+            {
+                RecoleccionModel recoleccion = new RecoleccionModel(15,fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud);
+                this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud,0);
+
+                finish();
+            }
         }
-        if(etFechaRecoleccion.getText().toString().isEmpty())
-            error+="Debe Seleccionar fecha\n";
-        else
-            fecha = etFechaRecoleccion.getText().toString();
-        if(txtComentarioRecoleccion.getText().toString().isEmpty())
-            error+="Debe ingresar comentario\n";
-        else
-            comentario = txtComentarioRecoleccion.getText().toString();
-        if(!error.isEmpty())
-            lanzarToast(error);
         else
         {
-            RecoleccionModel recoleccion = new RecoleccionModel(15,fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud);
-            BDRemota test = new BDRemota();
-            test.PostRecoleccion(recoleccion);
-            this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud,true);
-
-            finish();
+            lanzarToast("cargando gps");
         }
     }
     public void lanzarToast(String mensaje){

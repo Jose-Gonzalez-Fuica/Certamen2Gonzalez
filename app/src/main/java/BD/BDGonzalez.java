@@ -39,7 +39,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         // comentario, foto del lugar, localización (latitud y longitud) del lugar.
         sqLiteDatabase.execSQL("CREATE TABLE RecolecciónGonzalez" +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT, codigoPlanta TEXT, " +
-                "rutCientifico TEXT, comentario TEXT, fotoLugar BLOB,latitud REAL,longitud REAL,INTEGER send)");
+                "rutCientifico TEXT, comentario TEXT, fotoLugar BLOB,latitud REAL,longitud REAL,send INTEGER)");
 
     }
 
@@ -102,7 +102,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
         return sw1;
 
     }
-    public boolean insertarRecoleccionSql(String fecha,String codigoPlanta,String rutCientifico,String comentario,byte[] fotoLugar,double latitud,double longitud,boolean send){
+    public boolean insertarRecoleccionSql(String fecha,String codigoPlanta,String rutCientifico,String comentario,byte[] fotoLugar,double latitud,double longitud,int send){
         boolean sw1=true;
         SQLiteDatabase db = getWritableDatabase(); //ABRE BD EN MODO ESCRITURA
         if(db != null){//PREGUNTO SI LA BASE EXISTE
@@ -115,7 +115,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
             valores.put("fotoLugar", fotoLugar);
             valores.put("latitud", latitud);
             valores.put("longitud", longitud);
-            valores.put("send",1);
+            valores.put("send",send);
             try {
                 db.insert("RecolecciónGonzalez", "fotoLugar", valores);
                 db.close();
@@ -249,7 +249,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
             valores.put("comentario",  recoleccion.getComentario());
             valores.put("send", send);
             try {
-                db.update("RecolecciónGonzalez",valores,"id = "+recoleccion.getId(),null);
+                db.update("RecolecciónGonzalez",valores,"id ="+recoleccion.getId(),null);
                 db.close();
             } catch (Exception e) {
                 db.close();
@@ -326,7 +326,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
 
             if (c.moveToFirst()) {
                 do {
-                    recoleccion = new RecoleccionModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4),c.getBlob(5),c.getDouble(6),c.getDouble(7));
+                    recoleccion = new RecoleccionModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4),c.getBlob(5),c.getDouble(6),c.getDouble(7),c.getInt(8));
                     recolecciones.add(recoleccion);
                 }
                 while(c.moveToNext());
@@ -353,7 +353,7 @@ public class BDGonzalez extends SQLiteOpenHelper {
 
             if (c.moveToFirst()) {
                 do {
-                    recoleccion = new RecoleccionModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4),c.getBlob(5),c.getDouble(6),c.getDouble(7));
+                    recoleccion = new RecoleccionModel(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),c.getString(4),c.getBlob(5),c.getDouble(6),c.getDouble(7),c.getInt(8));
                     recolecciones.add(recoleccion);
                 }
                 while(c.moveToNext());

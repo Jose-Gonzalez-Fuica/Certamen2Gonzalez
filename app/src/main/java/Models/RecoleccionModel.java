@@ -19,6 +19,17 @@ public class RecoleccionModel implements Serializable {
     public RecoleccionModel() {
     }
 
+    public RecoleccionModel(int id, String fecha, String codigoPlanta, String rutCientifico, String comentario, byte[] fotoLugar, double latitud, double longitud,int send) {
+        this.id = id;
+        this.fecha = fecha;
+        this.codigoPlanta = codigoPlanta;
+        this.rutCientifico = rutCientifico;
+        this.comentario = comentario;
+        this.fotoLugar = fotoLugar;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.send=send;
+    }
     public RecoleccionModel(int id, String fecha, String codigoPlanta, String rutCientifico, String comentario, byte[] fotoLugar, double latitud, double longitud) {
         this.id = id;
         this.fecha = fecha;
