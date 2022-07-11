@@ -227,13 +227,12 @@ public class BDRemota {
 
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String PostRecoleccion (RecoleccionModel recoleccion){
-        URL url;
-        String linea;
-        String r="nn";
+        String linea,r="nn";
         int respuesta;
         StringBuilder resul=null;
-        try {   //obligado try/catch
+        try {
             String params = new JSONObject()
                     .put("fecha", recoleccion.getFecha())
                     .put("codigoPlanta", recoleccion.getCodigoPlanta())
@@ -241,49 +240,27 @@ public class BDRemota {
                     .put("comentario", recoleccion.getComentario())
                     .put("latitud", recoleccion.getLatitud())
                     .put("longitud", recoleccion.getLongitud())
-                    .put("fotoLugar", recoleccion.getFotoLugar())
-
-                    .toString();
+                    .put("fotoLugar", Base64.getEncoder().encodeToString(recoleccion.getFotoLugar())).toString();
             URL _url = new URL("https://android.gxmundoweb.cl/PostRecoleccion.php");
             HttpURLConnection urlConn =(HttpURLConnection)_url.openConnection();
             urlConn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
             urlConn.setRequestProperty("Accept", "application/json");
             urlConn.setDoOutput(true);
             urlConn.setRequestMethod("POST");
-
-
-            //BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(urlConn.getOutputStream()));
             DataOutputStream outputStream = new DataOutputStream(urlConn.getOutputStream());
             outputStream.writeBytes(params);
-            outputStream.flush();
             outputStream.close();
             urlConn.connect();
             urlConn.getContent();
-            String requestMethod = urlConn.getRequestMethod();
             respuesta=urlConn.getResponseCode();
             if(respuesta== HttpURLConnection.HTTP_OK){
-                InputStream in=new BufferedInputStream(urlConn.getInputStream());
-                // se lee respuesta
-                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                //llenar variable resul
-                while((linea=reader.readLine())!=null) {
-                    resul.append(linea);
-                }
                 r="OK";
-                //conection.disconnect();
-            }else
-            {
-                System.out.println(respuesta);
             }
         } catch (Exception e) {
-            //  Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
             e.printStackTrace();
             String n=e.getMessage().toString();
             return n;
         }
-
-        // return resul.toString();  //el json que se esta consumiendo del servicio php
-
         return r;
     }
 }

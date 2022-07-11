@@ -44,6 +44,8 @@ public class RecoleccionAdapter extends ArrayAdapter<RecoleccionModel> {
         codigo.setText(recoleccion.getCodigoPlanta() + "");
         rut.setText(recoleccion.getRutCientifico()+"");
         comentario.setText(recoleccion.getComentario()+"");
+        latitud.setText(recoleccion.getLatitud()+"");
+        longitud.setText(recoleccion.getLongitud()+"");
         Bitmap image = BitmapFactory.decodeByteArray(recoleccion.getFotoLugar(), 0, recoleccion.getFotoLugar().length);
         ivPlantaAdapter.setImageBitmap(image);
 

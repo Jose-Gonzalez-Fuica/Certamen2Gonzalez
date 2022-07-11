@@ -2,14 +2,20 @@ package com.example.certamen2gonzalez;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -19,11 +25,20 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
+
+import BD.BDGonzalez;
+import Models.CientificoModel;
+import Models.PlantaModel;
+import Models.RecoleccionModel;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-
+    private CientificoModel cientifico;
+    private ArrayList recolecciones;
+    private BDGonzalez local = new BDGonzalez(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +50,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        if (getIntent().getExtras() != null) {
+            String rut = (String) getIntent().getSerializableExtra("cientifico");
+            this.recolecciones = new ArrayList();
+            this.recolecciones=local.getRecoleccionByCientificoSql(rut);
+
+
+        }
     }
 
     /**
@@ -49,46 +71,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        ArrayList<RecoleccionModel> rList = this.recolecciones;
+        PolylineOptions POLILINEA = new PolylineOptions();
+
+        if (rList.size() > 0){
+            for(int i = 0; i < rList.size(); i++){
+                Bitmap image = BitmapFactory.decodeByteArray(rList.get(i).getFotoLugar(), 0, rList.get(i).getFotoLugar().length);
+                Bitmap resized = Bitmap.createScaledBitmap(image, 150, 150, true);
+                BitmapDescriptor imageMarker = BitmapDescriptorFactory.fromBitmap(resized);
+
+                LatLng postR = new LatLng(rList.get(i).getLatitud(), rList.get(i).getLongitud());
+                String datos = "Codigo Planta: "+rList.get(i).getCodigoPlanta()+"\n Cientifico: "+rList.get(i).getRutCientifico()+"\n Comentario: "+rList.get(i).getComentario();
+                mMap.addMarker(new MarkerOptions().position(postR).title(rList.get(i).getFecha()).snippet(datos).icon(imageMarker));
+
+                POLILINEA.add(postR);
+            }
+            Polyline polyline = mMap.addPolyline(POLILINEA);
+
+
+        }
+
+        //Camera Position
+        CameraPosition camPos = new CameraPosition.Builder()
+                .target(POLILINEA.getPoints().get(0))
+                .zoom(14)
+                .bearing(45)
+                .tilt(50)
+                .build();
+
+        CameraUpdate camMap = CameraUpdateFactory.newCameraPosition(camPos);
+        mMap.animateCamera(camMap);
 
         // Add a marker in Sydney and move the camera
-        LatLng losAngeles = new LatLng(-37.4629, -72.3612);
-        Marker los_Angeles=mMap.addMarker(new MarkerOptions()
-                .position(losAngeles)
-                .title("Los Angeles")
-                .snippet("Population: 4,137,400")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.img)));
-
-        LatLng SantaBarbara = new LatLng(-37.6644, -72.0246);
-        mMap.addMarker(new MarkerOptions().position(SantaBarbara).title("Marker in Santa Barbara"));
-
-        LatLng Angol = new LatLng(-37.8061, -72.7038);
-        mMap.addMarker(new MarkerOptions().position(Angol).title("Marker in Angol"));
-
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(losAngeles));
-        PolylineOptions POLILINEA =new PolylineOptions()
-                .add(losAngeles)
-                .add(SantaBarbara)
-                .add(Angol)
-                .add(losAngeles);
-
-        Polyline polyline=mMap.addPolyline(POLILINEA);
-        PolylineOptions POLILINEA2 =new PolylineOptions()
-                .add(new LatLng(-37.5923, -72.4898))
-                .add(new LatLng(-37.7531, -72.4076))
-                .add(new LatLng(-37.5523, -72.2115))
-                .add(new LatLng(-37.5923, -72.4898));
-        Polyline polyline2=mMap.addPolyline(POLILINEA2);
-        	PolygonOptions POLIGONO =new PolygonOptions()
-        	.add(losAngeles,SantaBarbara,Angol)
-        	.strokeColor(Color.YELLOW)
-        	.fillColor(Color.YELLOW);
-        Polygon poligono2=mMap.addPolygon(POLIGONO);
-        PolygonOptions POLIGONO2 =new PolygonOptions()
-                .add(new LatLng(-37.5923, -72.4898),new LatLng(-37.7531, -72.4076),new LatLng(-37.5523, -72.2115))
-                .strokeColor(Color.BLACK)
-                .fillColor(Color.BLACK);
-        Polygon poligono=mMap.addPolygon(POLIGONO2);
 
 
 

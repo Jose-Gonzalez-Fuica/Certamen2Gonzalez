@@ -52,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.btnMaps:
-                intent = new Intent(MainActivity.this, MapsActivity.class);
+                intent = new Intent(MainActivity.this, Mapa_Cientifico.class);
+                startActivity(intent);
+                return true;
+            case R.id.btnRemoto:
+                intent = new Intent(MainActivity.this, Datos_Remoto.class);
                 startActivity(intent);
                 return true;
             default:

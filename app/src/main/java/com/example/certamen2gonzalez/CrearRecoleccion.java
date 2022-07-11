@@ -92,32 +92,7 @@ public class CrearRecoleccion extends AppCompatActivity {
         spRutCientifico.setSelection(0);
         spCodigoPlanta.setAdapter(adapter);
         spCodigoPlanta.setSelection(0);
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))    // chequea si está activo gps
-            AlertGPS();
-
-        if (ContextCompat.checkSelfPermission(CrearRecoleccion.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(CrearRecoleccion.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(CrearRecoleccion.this, new String[]
-                    {
-                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        };
-
-        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                String latitud1 =String.valueOf(location.getLatitude());
-                String longitud1 = String.valueOf(location.getLongitude());
-                latitud = Double.parseDouble(latitud1);
-                longitud=Double.parseDouble(longitud1);
-                Lanzar
-            }
-
-            @Override
-            public void onProviderDisabled(@NonNull String provider) {
-                LocationListener.super.onProviderDisabled(provider);
-            }
-        });
+        GetGPS();
 
     }
     private void showDatePickerDialog() {
@@ -148,8 +123,42 @@ public class CrearRecoleccion extends AppCompatActivity {
             ivFotoRecoleccion.setImageBitmap(bmp1);
         }
     }
+    private void GetGPS()
+    {
+        try {
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))    // chequea si está activo gps
+                AlertGPS();
 
+            if (ContextCompat.checkSelfPermission(CrearRecoleccion.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(CrearRecoleccion.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(CrearRecoleccion.this, new String[]
+                        {
+                                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            };
 
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
+                @Override
+                public void onLocationChanged(@NonNull Location location) {
+                    String latitud1 =String.valueOf(location.getLatitude());
+                    String longitud1 = String.valueOf(location.getLongitude());
+                    latitud = Double.parseDouble(latitud1);
+                    longitud=Double.parseDouble(longitud1);
+
+                }
+
+                @Override
+                public void onProviderDisabled(@NonNull String provider) {
+                    LocationListener.super.onProviderDisabled(provider);
+                }
+            });
+        }catch (Exception e)
+        {
+            lanzarToast("error "+e);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void Crear(View v){
         String fecha="";
         String comentario="";
@@ -178,10 +187,11 @@ public class CrearRecoleccion extends AppCompatActivity {
             lanzarToast(error);
         else
         {
-            RecoleccionModel recoleccion = new RecoleccionModel(15,fecha,codigoPlanta,rutCientifico,comentario,byteArray,0,0);
-            this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud);
+            RecoleccionModel recoleccion = new RecoleccionModel(15,fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud);
             BDRemota test = new BDRemota();
             test.PostRecoleccion(recoleccion);
+            this.bd.insertarRecoleccionSql(fecha,codigoPlanta,rutCientifico,comentario,byteArray,this.latitud,this.longitud,true);
+
             finish();
         }
     }

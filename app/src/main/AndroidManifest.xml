@@ -21,7 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Certamen2Gonzalez"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".Mapa_Cientifico"
+            android:exported="false" />
+        <activity
+            android:name=".Datos_Remoto"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
