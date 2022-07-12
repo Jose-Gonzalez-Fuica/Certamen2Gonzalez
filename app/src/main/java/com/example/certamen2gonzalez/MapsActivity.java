@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
 
 import BD.BDGonzalez;
+import BD.BDRemota;
 import Models.CientificoModel;
 import Models.PlantaModel;
 import Models.RecoleccionModel;
@@ -39,6 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private CientificoModel cientifico;
     private ArrayList recolecciones;
+    private boolean all=true;
     private BDGonzalez local = new BDGonzalez(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         if (getIntent().getExtras() != null) {
             String rut = (String) getIntent().getSerializableExtra("cientifico");
+            this.all=false;
             this.recolecciones = new ArrayList();
             this.recolecciones=local.getRecoleccionByCientificoSql(rut);
 
@@ -72,9 +75,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        ArrayList<RecoleccionModel> rList = this.recolecciones;
+        ArrayList<RecoleccionModel> rList;
+        if(!all)
+            rList = this.recolecciones;
+        else
+            rList = local.getRecoleccionSql();
         if(rList.size()==0){
-            lanzarToast("Error debe ingresar Cientifico primero");
+            lanzarToast("Error debe ingresar una relacion al cientifico primero");
             finish();
         }
         PolylineOptions POLILINEA = new PolylineOptions();
@@ -88,22 +95,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng postR = new LatLng(rList.get(i).getLatitud(), rList.get(i).getLongitud());
                 String datos = "Codigo Planta: "+rList.get(i).getCodigoPlanta()+"\n Cientifico: "+rList.get(i).getRutCientifico()+"\n Comentario: "+rList.get(i).getComentario();
                 mMap.addMarker(new MarkerOptions().position(postR).title(rList.get(i).getFecha()).snippet(datos).icon(imageMarker));
-
+                if(!all)
                 POLILINEA.add(postR);
             }
-            Polyline polyline = mMap.addPolyline(POLILINEA);
+            Polyline polyline;
+            if(!all)
+             polyline = mMap.addPolyline(POLILINEA);
 
 
         }
 
         //Camera Position
-        CameraPosition camPos = new CameraPosition.Builder()
+        CameraPosition camPos;
+        if(!all)
+        camPos = new CameraPosition.Builder()
                 .target(POLILINEA.getPoints().get(0))
                 .zoom(14)
                 .bearing(45)
                 .tilt(50)
                 .build();
-
+        else
+            camPos = new CameraPosition.Builder()
+                    .target(new LatLng(rList.get(0).getLatitud(), rList.get(0).getLongitud()))
+                    .zoom(14)
+                    .bearing(45)
+                    .tilt(50)
+                    .build();
         CameraUpdate camMap = CameraUpdateFactory.newCameraPosition(camPos);
         mMap.animateCamera(camMap);
 

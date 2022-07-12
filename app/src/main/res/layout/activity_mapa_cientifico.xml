@@ -20,9 +20,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="Mapa"
-        android:text="Ver Mapa"
+        android:text="Ver Mapa Por Cientifico"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418" />
+
+    <Button
+        android:id="@+id/btTodos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="MapaTodos"
+        android:text="Ver Mapa Todos"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.721" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -59,4 +59,9 @@ public class Mapa_Cientifico extends AppCompatActivity {
         prueba.putExtra("cientifico",this.rut);
         startActivity(prueba);
     }
+    public void MapaTodos(View v)
+    {
+        Intent prueba = new Intent(getBaseContext(),MapsActivity.class);
+        startActivity(prueba);
+    }
 }
